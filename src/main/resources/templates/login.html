@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container" style="width: 400px;margin-top: 200px">
+
+    <form class="form-control">
+        <h2 class="form-signin-heading">注册</h2>
+        <input type="text" class="form-control" id="inputName" placeholder="用户名" autofocus>
+        <input type="password" class="form-control password-field" id="inputPassword" placeholder="密码">
+        <div class="row">
+            <div class="form-inline">
+                <input type="password" class="password-field form-control" id="inputPasswordAgain" placeholder="再次输入密码" onblur="checkPassword()"/>
+                <label for="inputPasswordAgain" class="text-warning sr-only-focusable" id="passwordNotify"></label>
+            </div>
+        </div>
+
+        <input type="email" id="inputEmail" class="form-control" placeholder="邮箱" required/>
+        <label for="inputEmail" class="sr-only-focusable" id="mailNotice"></label>
+        <button id="getCode" class="form-control" onclick="wait()">获取验证码</button>
+        <input type="text" id="inputCode" class="form-control" placeholder="请输入验证码">
+        <button class="form-control" onclick="submit()">注册</button>
+    </form>
+
+</div> <!-- /container -->
+    <script src="https://code.jquery.com/jquery-3.2.0.js"></script>
+    <!--script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script-->
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+        var time;
+        var checkFlag = false;
+        function setTime() {
+            if(time >= 0){
+                var btn =document.getElementById("getCode");
+                btn.innerText = "获取验证码(" + time + "s)";
+                time--;
+            }else{
+                btn.removeAttribute("disabled");
+            }
+        }
+
+        function checkMail() {
+            var mail = document.getElementById("inputEmail").value;
+            var mailNotice = document.getElementById("mailNotice");
+            if(mail != null && mail != "") {
+                $.ajax({
+                    type:"POST",
+                    url:"sign/checkMail",
+                    data:{
+                        "mail":mail
+                    },
+                    dataType:"json",
+                    success:function (data) {
+                        var flag = data.flag;
+                        if(flag == false){
+                            mailNotice.innerText = "该邮箱可用";
+                            return 1;
+                        }else{
+                            mailNotice.innerText = "该邮箱已经被使用";
+                            return 0;
+                        }
+                    }
+                });
+                return 0;
+            }else {
+                return 0;
+            }
+        }
+        function checkPassword() {
+            var password = document.getElementById("inputPassword").value;
+            var password2 = document.getElementById("inputPasswordAgain").value;
+            if(password != password2){
+                var notify = document.getElementById("passwordNotify");
+                notify.innerText = "两次输入密码不一致，重新输入";
+                return false;
+            }else{
+                return true;
+            }
+        }
+        function checkName() {
+            var name = document.getElementById("inputName").value;
+            if(name == null || name.length == ""){
+                return false;
+            }else{
+                return true;
+            }
+        }
+
+        function submit() {
+            if(checkPassword() && checkName() ){
+                var data = {
+                    "name":$("#inputName").val(),
+                    "mail":$("#inputEmail").val(),
+                    "password":$("#inputPasswordAgain").val(),
+                    "code":$("#inputCode").val()
+                };
+                $.ajax({
+                    type:"POST",
+                    url:"./submit",
+                    data:data,
+                    dataType:"json",
+                    success:function (data) {
+                        if (data.flag== true)
+                            alert("验证成功");
+                    }
+                })
+            }
+        }
+        function wait() {
+            time = 60;
+            var btn = document.getElementById("getCode");
+            var mail = document.getElementById("inputEmail").value;
+            var click = Date.now();
+            btn.setAttribute("disabled",true);
+            //setInterval("setTime()",1000);
+            //var i = checkMail();
+            //alert(i);
+            if(checkMail() == 0){
+                alert("123");
+                $.ajax({
+                    type:"POST",
+                    url:"login/getCode",
+                    data:{
+                        "mail":mail
+                    },
+                    dataType:"json",
+                    success:function goToDetail(data) {
+                        if(data.flag == false){
+                            alert("验证码获取不成功，请稍后再试");
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+
+</body>
+</html>

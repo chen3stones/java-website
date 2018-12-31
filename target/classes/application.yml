@@ -1,0 +1,11 @@
+
+
+spring:
+  profiles:
+    active: dev
+    # 定位模板的目录
+  thymeleaf:
+    prefix: classpath:/templates/
+mybatis:
+  mapper-locations: classpath*:com/oreo/website/dao/*.xml
+  type-aliases-package: com.oreo.website.until

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.oreo.website.dao.UserDao">
+    <resultMap id="UserMapper" type="com.oreo.website.until.User">
+        <id column="uid" property="uID"/>
+        <result column="uname" property="uName"/>
+        <result column="password" property="uPassword"/>
+        <result column="email" property="uMail"/>
+        <result column="authority" property="authority"/>
+    </resultMap>
+    <select id="findAllUser" resultMap="UserMapper">
+        select * from user
+    </select>
+    <select id="findUserByID" parameterType="int" resultMap="UserMapper">
+        select * from user where uid=#{id}
+    </select>
+    <select id="findUserByMail" parameterType="String" resultMap="UserMapper">
+        select * from  user where email=#{mail}
+    </select>
+    <select id="findUserByName" parameterType="String" resultMap="UserMapper">
+        select * from user where uname=#{name}
+    </select>
+    <select id="findPasswordByMail" parameterType="String" resultType="String">
+        select password from user where email = #{mail}
+    </select>
+    <update id="setNameByID">
+        update user set uname = #{name} where uid=#{ID}
+    </update>
+    <update id="setNameByMail" >
+        update user set uname = #{name} where email = #{mail}
+    </update>
+    <update id="setPasswordByMail">
+        update user set password = #{password} where email = #{mail}
+    </update>
+    <update id="setAuthorityByID">
+        update user set authority = #{authority} where uid=#{id}
+    </update>
+    <update id="setAuthorityByMail">
+        update user set authority = #{authority} where emai=#{mail}
+    </update>
+    <insert id="insert" parameterType="com.oreo.website.until.User">
+        insert into user(uname,password,email,authority)
+        values(#{uName},#{uPassword},#{uMail},#{authority})
+    </insert>
+    <delete id="deleteByMail">
+        delete from user where email = #{mail}
+    </delete>
+    <delete id="deleteByName">
+        delete from user where #{name}
+    </delete>
+</mapper>

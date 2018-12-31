@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oreo.website.dao.ArticleDao">
+    <resultMap id="ArticleMapper" type="com.oreo.website.until.Article">
+        <id column="a_id" property="aId"/>
+        <id column="a_authority_id" property="aAuthorId"/>
+        <id column="a_title" property="aTitle"/>
+        <id column="a_text" property="aText"/>
+        <id column="a_authority" property="aAuthority"/>
+    </resultMap>
+    <select id="findArticleByAuthorId" resultMap="ArticleMapper">
+        select * from article where a_author_id= #{authority}
+    </select>
+    <select id="findArticleByTitle" resultMap="ArticleMapper">
+        select * from article where a_title = #{title}
+    </select>
+    <insert id="insert" parameterType="com.oreo.website.until.Article">
+        insert into article(a_author_id, a_title, a_text, a_authority)
+        values (#{aAuthorId},#{aTitle},#{aText},#{aAuthority})
+    </insert>
+    <update id="updateByArticleId" parameterType="com.oreo.website.until.Article">
+        update article set a_title=#{aTitle},a_text = #{aText},a_authority = #{aAuthority}
+        where a_id = #{aId}
+    </update>
+    <delete id="deleteByArticleId">
+        delete from article where a_id=#{id};
+    </delete>
+
+</mapper>

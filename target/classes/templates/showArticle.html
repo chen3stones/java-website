@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>show</title>
+    <link rel="stylesheet" href="/editor/css/style.css" />
+    <link rel="stylesheet" href="/editor/css/editormd.css" />
+    <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css"/>
+</head>
+<body>
+    <div id="layout"  class="editor">
+        <div id="test-editormd" >
+            <textarea>北京欢迎您\n| wew | qwqw|\n| ------------ | ------------ |\n| qwqw| qwq |\n| qwq | qwqw |\n2018-12-30 16:02:57 星期日♥\n\n\n[========]\n> sdsddsd\nsdsd\n### *sdsdsdds*sdsdsd\n\n------------\n\n```cpp\n#include\"stdio.h\"\n\tint main(){\n\tprint(\"asdf\");\n\tretuirn 0;\n}\n```</textarea>
+        </div>
+    </div>
+
+    <script>
+        testEditor = editormd.markdownToHTML("test-editormd", {
+            markdown:$scope.apidetails.content,
+            htmlDecode      : "style,script,iframe",  // you can filter tags decode
+            emoji           : true,
+            taskList        : true,
+            tex             : true,  // 默认不解析
+            flowChart       : true,  // 默认不解析
+            sequenceDiagram : true,  // 默认不解析
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/website?serverTimezone=GMT&useSSL=false&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:**/dao/**Mapper.xml
+  type-aliases-package: com.oreo.website.until
+
+#showSql
+logging:
+  level:
+    com:
+      example:
+        mapper : debug
+
+
+mail:
+  address: 1428363716@qq.com
+  password: sbycqjmizszphjdg
+  server: smtp.qq.com
+
+blogName: 牛逼系统

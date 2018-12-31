@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.oreo.website.dao.CodeDao">
+    <resultMap id="CodeMapper" type="com.oreo.website.until.Code">
+        <id column="c_id" property="cId"/>
+        <result column="c_mail" property="cMail"/>
+        <result column="c_code" property="cCode"/>
+        <result column="c_last_time" property="cLastTime"/>
+    </resultMap>
+    <select id="findCodeByMail" resultMap="CodeMapper" parameterType="String">
+        select * from code where c_mail = #{mail}
+    </select>
+    <update id="updateCodeByMail" parameterType="com.oreo.website.until.Code">
+        update code set c_code=#{cCode},c_last_time=#{cLastTime} where c_mail = #{cMail}
+    </update>
+    <insert id="insertCode" parameterType="com.oreo.website.until.Code">
+        insert into code(c_mail, c_code, c_last_time)
+        values (#{cMail},#{cCode},#{cLastTime})
+    </insert>
+
+</mapper>

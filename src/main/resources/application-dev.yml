@@ -21,8 +21,8 @@ logging:
 
 
 mail:
-  address: 1428363716@qq.com
-  password: sbycqjmizszphjdg
+  address: ********@qq.com
+  password: ********
   server: smtp.qq.com
 
 blogName: 牛逼系统
